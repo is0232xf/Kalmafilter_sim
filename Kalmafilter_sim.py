@@ -8,6 +8,7 @@ Created on Tue Nov  6 12:31:41 2018
 import matplotlib.pyplot as plt 
 import random
 
+# 折れ線グラフの表示
 def make_figure(x, y, x_hat):
     plt.plot(x, "-o")
     plt.plot(y, "-x")
@@ -18,29 +19,33 @@ def make_figure(x, y, x_hat):
 
 # 状態と誤差分散の初期値設定
 x_zero = 0
-p_zero = 0
+p_zero = 1
 
 # 正規分布のパラメータ
-#  mはmeanの意味．つまり平均. varはvarianceの意味．つまり分散.
+#  mはmean（平均）の意味. varはvariance（分散）の意味．
 m_v = 0
 m_w = 0
 var_v = 1
 var_w = 2
 
-# 記憶領域
-x = []
-x_hat = []
-y = []
-p = []
-p_bar = []
-g = []
-e_x_y = []
-e_x_x_hat = []
+# 各ステップにおける各値を保持するリスト
+x = [] # 位置の真の値
+x_hat = [] # 位置の推定値
+y = [] # 位置の観測値
+p = [] # 事後分散
+p_bar = [] # 事前分散
+g = [] # カルマンゲイン
 
 # カウンタ変数
 k = 0
-flag = 0 
+# 条件分岐変数
+flag = 0
+
+# 試行回数
 itr = 100
+
+e_x_y = 0
+e_x_x_hat = 0
 
 if __name__ == "__main__":
     
@@ -52,13 +57,13 @@ if __name__ == "__main__":
     while(1):
         print("k: ", k)
         print("------------------------------------------")
-        # 真値の設定と出力の設定
+        # 真値と観測値の設定
         v = random.gauss(m_v, var_v)
         w = random.gauss(m_w, var_w)
         y.append(x[k] + w)
         if k != itr-1:
             x.append(x[k] + v)
-        # 真の値と観測値を表示
+        # 真値と観測値を表示
         print("x    : ", x[k])
         print("y    : ", y[k])
         if flag == 0:
@@ -79,4 +84,10 @@ if __name__ == "__main__":
         # 終了させる
         if k == itr:
             break
+    for i in range(itr):
+        e_x_y += abs(x[i]-y[i])
+        e_x_x_hat += abs(x[i]-x_hat[i])
+        
     make_figure(x, y, x_hat)
+    print("cum_error x-y: ", e_x_y)
+    print("cum_error x-x_hat: ", e_x_x_hat)
