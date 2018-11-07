@@ -40,10 +40,10 @@ g = [] # カルマンゲイン
 k = 0
 # 条件分岐変数
 flag = 0
-
 # 試行回数
 itr = 100
 
+# 累積誤差
 e_x_y = 0
 e_x_x_hat = 0
 
@@ -84,10 +84,12 @@ if __name__ == "__main__":
         # 終了させる
         if k == itr:
             break
+    # 累積誤差を計算する
     for i in range(itr):
         e_x_y += abs(x[i]-y[i])
         e_x_x_hat += abs(x[i]-x_hat[i])
-        
+    
+    # 結果の表示
     make_figure(x, y, x_hat)
     print("cum_error x-y: ", e_x_y)
     print("cum_error x-x_hat: ", e_x_x_hat)
