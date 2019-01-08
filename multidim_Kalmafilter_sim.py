@@ -54,7 +54,7 @@ if __name__ == "__main__":
     
     # セットアップ
     itr = 30 
-    direction = 220 # システムが進む方向．単位は度
+    direction = -10 # システムが進む方向．単位は度
     u_original = 0.2 # 任意の方向の速度, 単位はm．秒速にして秒速0.2mとしている
     uy = dy*math.sin(direction/180*math.pi) # 緯度方向の速度, 単位は度．秒速にして秒速0.2mとしている
     ux = dx*math.cos(direction/180*math.pi) # 経度方向の速度, 単位は度．秒速にして秒速0.2mとしている

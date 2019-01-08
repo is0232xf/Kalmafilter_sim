@@ -63,7 +63,7 @@ def system(x, A, B, u):
     obs_val = observe(true_val)
     return true_val, obs_val
 
-def Kalman_Filter(m, V):
+def Kalman_Filter(m, y, V):
     # 予測
     m_est = model(m, A, B, u)
     V_est = np.dot(np.dot(A, V), A.transpose()) + Q
